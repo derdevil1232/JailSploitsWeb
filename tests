@@ -1,3 +1,6 @@
+
+local Library = loadstring(game:HttpGet("https://jailhax.lol/misc/Gui2.lua"))()
+
 do
     local Window                   = Library:CreateWindow({
         Title                      = "Jailbreak HypeSpeed V1",
@@ -139,3 +142,112 @@ do
 
     Window:SelectTab(1)
 end
+
+--> [[ Load Main ]] <--
+
+local FakeSniper = {
+    Local = true,
+    IgnoreList = {},
+    Config = {},
+    Maid = Modules.Maid.new(),
+    __ClassName = "Sniper",
+}
+
+Modules.Gun.SetupBulletEmitter(FakeSniper)
+
+local OldHasKeyFunction             = {}
+local OldStunnedFunction            = {}
+local OldCrawlFunction              = {}
+local OldPointTagFunction           = {}
+local OldRayIgnoreTable             = Modules.RayCast.RayIgnoreNonCollideWithIgnoreList
+local ProgressButton                = PlayerGui:WaitForChild("AppUI"):WaitForChild("Controls"):WaitForChild("outer_5"):WaitForChild("Button")
+local ProgressTracker               = ProgressButton:FindFirstChild("Progress")
+
+
+OldStunnedFunction = hookfunction(StunnedFunction, LPH_NO_VIRTUALIZE(function(...) 
+	if Settings.Antitaze then
+		return
+	end
+
+	return OldStunnedFunction(...)
+end))
+
+
+OldPointTagFunction = hookfunction(Modules.TagUtils.isPointInTag, LPH_NO_VIRTUALIZE(function(pos, tag)
+	if tag == "NoRagdoll" and Settings.NoRagDoll then
+		return true
+	elseif tag == "NoFallDamage" and Settings.NoFallDamage then
+		return true
+	elseif tag == "NoParachute" and Settings.NoParachute then
+		return true
+	end 
+
+	return OldPointTagFunction(pos, tag)
+end))
+
+Modules.RayCast.RayIgnoreNonCollideWithIgnoreList = LPH_NO_VIRTUALIZE(function(...)
+	if Settings.Aimbot then
+		local NearestEnemy = nil
+		local NearestDistance = tonumber(Settings.AimbotDistanceInt)
+	
+		local TargetFromTeam = {
+			["Prisoner"] = "Police",
+			["Criminal"] = "Police",
+			["Police"] = "Criminal"
+		}
+	
+		for _, v in Players:GetPlayers() do
+			if v.Team.Name == TargetFromTeam[Player.Team.Name] and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health > 0 then
+				if (v.Character.HumanoidRootPart.Position - Root.Position).Magnitude < NearestDistance then
+					NearestDistance, NearestEnemy = (v.Character.HumanoidRootPart.Position - Root.Position).Magnitude, v
+				end
+			end
+		end
+
+		local Arg = {OldRayIgnoreTable(...)}
+	
+		if (Tostring(getfenv(2).script) == "BulletEmitter" or Tostring(getfenv(2).script) == "Taser") and NearestEnemy then
+			Arg[1] = NearestEnemy.Character.HumanoidRootPart
+			Arg[2] = NearestEnemy.Character.HumanoidRootPart.Position
+			Arg[3] = NearestEnemy.Character.HumanoidRootPart.Position
+		end
+	
+		return unpack(Arg)
+	end
+
+	return OldRayIgnoreTable(...)
+end)
+
+Spawn(function()
+	LPH_JIT_MAX(function()
+        while Wait(0.1) do
+            pcall(function()
+                local VehicleModel = GetVehiclePacket()
+        
+        
+                if Settings.Antiarrest and Humanoid.Sit == false then
+                    Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
+                    Humanoid.Sit = true
+                end
+
+                if Settings.Poptires then
+                    local ClosestVehicle = GetClosestVehicle()
+    
+                    if ClosestVehicle then
+                        FakeSniper.BulletEmitter.OnHitSurface:Fire(ClosestVehicle.PrimaryPart, ClosestVehicle.PrimaryPart.Position, ClosestVehicle.PrimaryPart.Position)
+                    end
+                end
+            end)
+        end
+    end)()
+end)
+
+
+UserInputService.InputBegan:Connect(LPH_NO_VIRTUALIZE(function(input, event)
+
+    if input.UserInputType == Enum.UserInputType.Keyboard then
+        if input.KeyCode == Enum.KeyCode.LeftControl or input.KeyCode == Enum.KeyCode.RightControl then
+            RollTimeFunction()
+        end
+    end
+end))
