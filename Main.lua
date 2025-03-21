@@ -1,5 +1,14 @@
+if not LPH_OBFUSCATED then
+getfenv().LPH_JIT_MAX          = function(...) return ... end;
+getfenv().LPH_NO_VIRTUALIZE    = function(...) return ... end;
+getfenv().LPH_ENCSTR           = function(...) return ... end;
+end
 
-
+if getgenv().Jailhax then
+    return
+else
+    getgenv().Jailhax = true
+end
 --> [[ Load Game ]] <--
 
 while not game:IsLoaded() do
