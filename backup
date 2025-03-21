@@ -1,0 +1,43 @@
+--> [[ Load Game ]] <--
+
+while not game:IsLoaded() do
+    task.wait()
+end
+
+--> [[ Load Services ]] <--
+
+local Services = {
+    Workspace = game:GetService("Workspace"),
+    Players = game:GetService("Players"),
+    HttpService = game:GetService("HttpService"),
+    ReplicatedStorage = game:GetService("ReplicatedStorage"),
+    RunService = game:GetService("RunService"),
+    UserInputService = game:GetService("UserInputService")
+}
+
+local Workspace = Services.Workspace
+local Players = Services.Players
+local HttpService = Services.HttpService
+local ReplicatedStorage = Services.ReplicatedStorage
+local RunService = Services.RunService
+local UserInputService = Services.UserInputService
+
+--> [[ Load Modules ]] <--
+
+local Modules = {
+    VehicleUtils = require(ReplicatedStorage.Vehicle.VehicleUtils),
+    TagUtils = require(ReplicatedStorage.Tag.TagUtils),
+    GunShopUI = require(ReplicatedStorage.Game.GunShop.GunShopUI),
+    RayCast = require(ReplicatedStorage.Module.RayCast),
+    Gun = require(ReplicatedStorage.Game.Item.Gun),
+    Maid = require(ReplicatedStorage.Std.Maid)
+}
+
+local GetVehicleModel = Modules.VehicleUtils.GetLocalVehicleModel
+local GetVehiclePacket = Modules.VehicleUtils.GetLocalVehiclePacket
+
+--> [[ Load Misc ]] <--
+
+local Wait = task
+::contentReference[oaicite:2]{index=2}
+ 
