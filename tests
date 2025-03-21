@@ -1,0 +1,141 @@
+do
+    local Window                   = Library:CreateWindow({
+        Title                      = "Jailbreak HypeSpeed V1",
+		SubTitle                   = "",
+		TabWidth                   = 200,
+		Size                       = UDim2.fromOffset(580, 460),
+		Acrylic                    = false, 
+		Theme                      = "Dark",
+		MinimizeKey                = Enum.KeyCode.RightControl 
+    })            
+
+    local Tabs                     = {
+		Player                     = Window:AddTab({ Title = "Main", Icon = "" }),
+		Robberies                  = Window:AddTab({ Title = "Robberies", Icon = "" }),
+    }
+
+    local Options                  = Library.Options
+
+    do
+		local AntiTazeToggle       = Tabs.Main:AddToggle("Antitaze", { 
+            Title = "Anti Taze", 
+            Default = true 
+        })
+
+        local AntiArrestToggle     = Tabs.Main:AddToggle("Antiarrest", { 
+            Title = "Anti Arrest", 
+            Default = true 
+        })
+
+		local NoRagDollToggle      = Tabs.Main:AddToggle("Noragdoll", { 
+            Title = "No Rag Doll", 
+            Default = true 
+        })
+
+		local NoFallDamageToggle   = Tabs.Main:AddToggle("Nofalldamage", { 
+            Title = "No Fall Damage", 
+            Default = true 
+        })
+
+		local NoParachuteToggle    = Tabs.Main:AddToggle("Noparachute", { 
+            Title = "No Parachute", 
+            Default = true 
+        })
+
+
+
+		AntiTazeToggle:OnChanged(function()
+			Settings.Antitaze = Options.Antitaze.Value
+		end)
+
+        AntiArrestToggle:OnChanged(function()
+			Settings.Antiarrest = Options.Antiarrest.Value
+
+            if Options.Antiarrest.Value == false then
+                pcall(function()
+                    Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, true)
+                    Humanoid.Sit = false
+                end)
+            end
+		end)
+
+
+		NoRagDollToggle:OnChanged(function()
+			Settings.NoRagDoll = Options.Noragdoll.Value
+		end)
+
+		NoFallDamageToggle:OnChanged(function()
+			Settings.NoFallDamage = Options.Nofalldamage.Value
+		end)
+
+		NoParachuteToggle:OnChanged(function()
+			Settings.NoParachute = Options.Noparachute.Value
+		end)
+    
+
+
+
+    Tabs.Robberies:AddButton({
+        Title = "Disable Mansion Lasers",
+        Description = "Disables Mansion Lasers.",
+        Callback = function()
+            for _, v in Workspace.MansionRobbery:GetDescendants() do
+                if v.Name == "LaserTraps" and v:IsA("Model") then
+                    for _, v2 in v:GetDescendants() do
+                        if v2:FindFirstChild("TouchInterest") then
+                            v2:Destroy()
+                        end
+                    end
+                end
+
+                if v.Name == "Lasers" and v:IsA("Model") then 
+                    for _, v2 in v:GetDescendants() do
+                        if v2:FindFirstChild("TouchInterest") then
+                            v2:Destroy()
+                        end
+                    end
+                end
+            end
+        end,
+    })
+
+
+
+    Tabs.Teleports:AddButton({
+        Title = "Mansion",
+        Callback = function()
+            Teleport("Mansion")
+        end
+    })
+
+    local AimbotToggle = Tabs.Weapons:AddToggle("Aimbot", {
+        Title = "Aimbot",
+        Default = true
+    })
+
+    local PopTiresToggle = Tabs.Weapons:AddToggle("Poptires", {
+        Title = "Pop Tires",
+        Default = true
+    })
+
+    AimbotToggle:OnChanged(function()
+        Settings.Aimbot = Library.Options.Aimbot.Value
+    end)
+
+    PopTiresToggle:OnChanged(function()
+        Settings.Poptires = Library.Options.Poptires.Value
+    end)
+
+    Tabs.Weapons:AddSlider("Aimbotdistance", {
+        Title = "Aimbot Distance",
+        Default = 100,
+        Min = 100,
+        Max = 1000,
+        Rounding = 1,
+        Callback = function(Value)
+            Settings.AimbotDistanceInt = Value
+        end
+    })
+
+    Window:SelectTab(1)
+end
