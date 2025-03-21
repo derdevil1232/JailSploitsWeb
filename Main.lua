@@ -6,13 +6,6 @@ while not game:IsLoaded() do
     task.wait()
 end
 
---> [[ Execution Check ]] <--
-
-if getgenv().Jailhax then
-    return
-else
-    getgenv().Jailhax = true
-end
 
 --> [[ Load Services ]] <--
 
