@@ -12,6 +12,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh;
             margin: 0;
             text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
@@ -19,12 +20,24 @@
         h1 {
             font-size: 3em;
         }
+        button {
+            background-color: #ff00ff; /* Neon pink button */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+            cursor: pointer;
+            text-shadow: 0 0 5px #fff;
+        }
+        button:hover {
+            background-color: #ff66ff;
+        }
     </style>
 </head>
 <body>
     <h1>JailSploits</h1>
-    <script>
-        // Add any interactive elements or features if required
-    </script>
+    <button onclick="window.location.href='page2.html';">Go to Page 2</button>
 </body>
 </html>
