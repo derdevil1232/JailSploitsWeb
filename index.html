@@ -3,41 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JailSploits</title>
+    <title>Home</title>
     <style>
         body {
-            background-color: #6a0dad; /* Neon purple background */
-            color: white;
+            margin: 0;
             font-family: Arial, sans-serif;
+            background-color: #800080; /* Neon purple */
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
             height: 100vh;
-            margin: 0;
-            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
-        h1 {
-            font-size: 3em;
+
+        .buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
         }
-        button {
-            background-color: #ff00ff; /* Neon pink button */
+
+        .button {
+            padding: 10px 20px;
+            margin: 5px;
             border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            font-size: 1.2em;
-            margin-top: 20px;
+            color: #800080;
+            background-color: white;
             cursor: pointer;
-            text-shadow: 0 0 5px #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
         }
-        button:hover {
-            background-color: #ff66ff;
+
+        .button:hover {
+            background-color: #800080;
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 1);
         }
     </style>
 </head>
 <body>
-    <h1>JailSploits</h1>
-    <button onclick="window.location.href='page2.html';">Go to Page 2</button>
+    <div class="buttons">
+        <a href="index.html" class="button">Home</a>
+        <a href="keys.html" class="button">Keys</a>
+    </div>
+    <h1>Welcome to the Home Page!</h1>
 </body>
 </html>
