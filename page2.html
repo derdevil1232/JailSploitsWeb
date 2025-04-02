@@ -27,55 +27,17 @@
             border-radius: 5px;
             margin: 20px;
         }
-
-        .key-box {
-            padding: 20px;
-            background-color: #333;
-            border-radius: 10px;
-            display: none;
-        }
-
-        .key-box h3 {
-            font-size: 30px;
-        }
-
-        #taskComplete {
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
     <h1>JailSploits - Get Your Key</h1>
-    <button onclick="window.location.href='https://workink.net/1YUP/jailsploits-key'">Complete a Task to Get Your Key</button>
-
-    <div class="key-box" id="keyBox">
-        <h3>Your Key: <span id="key"></span></h3>
-        <p id="taskComplete">Task completed. Please check your key below.</p>
-    </div>
+    <button onclick="redirectToWorkInk()">Get Key</button>
 
     <script>
-        // Check for the cookie indicating that the user has completed the task
-        const checkForKey = () => {
-            const key = getCookie("key");
-            if (key) {
-                document.getElementById("keyBox").style.display = "block";
-                document.getElementById("key").textContent = key;
-                document.getElementById("taskComplete").textContent = "Task completed. Your key is ready!";
-            } else {
-                alert("You need to complete a task to get the key.");
-            }
+        function redirectToWorkInk() {
+            // Redirect to the work.ink task link
+            window.location.href = "https://workink.net/1YUP/jailsploits-key"; // Work.ink link
         }
-
-        // Function to retrieve a cookie by name
-        const getCookie = (name) => {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-            return null;
-        };
-
-        // Call this function when the page loads to check if the key is in the cookies
-        window.onload = checkForKey;
     </script>
 </body>
 </html>
