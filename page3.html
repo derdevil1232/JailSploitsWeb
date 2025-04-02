@@ -1,61 +1,11 @@
-from flask import Flask, request, redirect, jsonify
-import random
-import string
-from datetime import datetime, timedelta
-import sqlite3
+<script>
+    // Fetch the key from your backend (e.g., Flask app)
+    fetch('https://your-backend-url.com/get_key')
+        .then(response => response.text())
+        .then(key => {
+            document.getElementById('key-display').textContent = "Your Key: " + key;
+        })
+        .catch(error => console.error('Error fetching key:', error));
+</script>
 
-app = Flask(__name__)
-
-# Function to generate a random key
-def generate_key():
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=16))
-
-# Connect to SQLite database (you can replace this with your database setup)
-def get_db_connection():
-    conn = sqlite3.connect('keys.db')  # Change to your DB setup
-    conn.row_factory = sqlite3.Row
-    return conn
-
-# Create a table for storing IPs and generated keys (run once to set up)
-def create_table():
-    conn = get_db_connection()
-    conn.execute('''CREATE TABLE IF NOT EXISTS generated_keys (
-                        ip_address TEXT PRIMARY KEY,
-                        key TEXT,
-                        created_at TIMESTAMP)''')
-    conn.commit()
-    conn.close()
-
-# Endpoint to check and generate key for a user based on IP
-@app.route('/check-key', methods=['GET'])
-def check_key():
-    referrer = request.headers.get('Referer')  # Check where the user was redirected from
-    if referrer != "https://workink.net/1YUP/jailsploits-key":
-        return redirect('/page2.html')  # Redirect to page2.html if the referrer is incorrect
-
-    ip_address = request.remote_addr  # Get the user's IP address
-    conn = get_db_connection()
-
-    # Check if the IP address has generated a key in the last 24 hours
-    cur = conn.execute('SELECT * FROM generated_keys WHERE ip_address = ?', (ip_address,))
-    row = cur.fetchone()
-    
-    if row:
-        # If the user has a key and it's within 24 hours, display it
-        key = row['key']
-        created_at = datetime.strptime(row['created_at'], '%Y-%m-%d %H:%M:%S')
-        if datetime.now() - created_at < timedelta(days=1):
-            return jsonify({"key": key, "message": "Here is your key, valid for 24 hours."})
-    
-    # If no key or the key expired, generate a new one
-    key = generate_key()
-    conn.execute('INSERT OR REPLACE INTO generated_keys (ip_address, key, created_at) VALUES (?, ?, ?)',
-                 (ip_address, key, datetime.now()))
-    conn.commit()
-    conn.close()
-    
-    return jsonify({"key": key, "message": "Key generated successfully. Valid for 24 hours."})
-
-if __name__ == '__main__':
-    create_table()  # Make sure the table is created
-    app.run(debug=True)
+<div id="key-display"></div>
