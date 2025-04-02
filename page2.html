@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Your Key</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        async function getKey() {
+            const hwid = localStorage.getItem("userHWID") || crypto.randomUUID();
+            localStorage.setItem("userHWID", hwid);
+
+            // Wait for user to complete LootLabs tasks
+            window.open("https://loot-link.com/s?zdRUHO3q", "_blank");
+
+            alert("Complete a task on LootLabs, then click OK to get your key.");
+
+            // Request key from the backend
+            const response = await fetch("/generate_key", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ hwid })
+            });
+
+            const data = await response.json();
+
+            if (data.key) {
+                document.getElementById("keyDisplay").innerText = "Your Key: " + data.key;
+            } else {
+                alert("Error: " + data.error);
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: black;
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        .button {
+            background: purple;
+            color: white;
+            padding: 15px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Claim Your JailSploits Key</h1>
+    <button class="button" onclick="getKey()">Get Key</button>
+    <p id="keyDisplay"></p>
+</body>
+</html>
