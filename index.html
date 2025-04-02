@@ -70,6 +70,36 @@
 </head>
 <body>
     <h1>JailSploits</h1>
-    <button class="button" onclick="window.location.href='page2.html';">Get Key</button>
+    <button class="button" onclick="getKey()">Get Key</button>
+
+    <script>
+        async function getKey() {
+            const hwid = getHwid(); // Get the user's HWID (unique identifier)
+            
+            // Send request to server to get LootLabs link
+            const response = await fetch('/get_key', {
+                method: 'POST',
+                body: new URLSearchParams({ 'hwid': hwid }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                alert(data.error);
+            } else {
+                // Redirect user to LootLabs link
+                window.location.href = data.lootlabs_link;
+            }
+        }
+
+        function getHwid() {
+            // Ideally, you'd have a backend method to get a HWID or unique user identifier
+            // This is just a placeholder
+            return 'user-unique-id'; // Replace with actual HWID fetching logic
+        }
+    </script>
 </body>
 </html>
