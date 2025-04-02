@@ -1,151 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>JailSploits - Free Key</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: #000;
-      font-family: 'Orbitron', sans-serif;
-      color: #fff;
-    }
-    h1 {
-      font-size: 3rem;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      letter-spacing: 2px;
-    }
-    .container {
-      text-align: center;
-    }
-    .button {
-      background: transparent;
-      border: 2px solid #fff;
-      color: #fff;
-      padding: 15px 30px;
-      margin: 10px;
-      font-size: 1.2rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.4s ease;
-    }
-    .button::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.2);
-      transition: all 0.4s ease;
-    }
-    .button:hover::before {
-      left: 0;
-    }
-    .button:hover {
-      box-shadow: 0 0 20px #fff;
-    }
-    .button {
-      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff;
-    }
-    .key-box {
-      border: 2px solid #fff;
-      padding: 20px;
-      font-size: 1.5rem;
-      margin-top: 20px;
-      text-shadow: 0 0 5px #fff, 0 0 10px #fff;
-    }
-    .countdown {
-      margin-top: 10px;
-      font-size: 1rem;
-      opacity: 0.8;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Your Free Key</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: linear-gradient(45deg, #000, #111, #222);
+            background-size: 400% 400%;
+            animation: gradientBG 10s infinite alternate;
+            color: white;
+            text-shadow: 0 0 10px #fff, 0 0 20px #0ff;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            background-color: transparent;
+            color: white;
+            font-size: 1.2em;
+            padding: 15px 40px;
+            border: 2px solid #0ff;
+            cursor: pointer;
+            margin: 10px;
+            text-transform: uppercase;
+            transition: 0.3s;
+            box-shadow: 0 0 10px #0ff;
+        }
+
+        .button:hover {
+            background: #0ff;
+            color: black;
+            box-shadow: 0 0 20px #0ff;
+        }
+
+        #keyDisplay {
+            font-size: 1.5em;
+            margin-top: 20px;
+            display: none;
+            text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Claim Your Free Key</h1>
-    <div id="content">
-      <!-- Content will be loaded dynamically -->
-    </div>
-  </div>
+    <h1>Get Your Free Key</h1>
+    <button class="button" id="getKey">Get Key</button>
+    <p id="keyDisplay"></p>
 
-  <script>
-    // Helper: Get cookie by name
-    function getCookie(name) {
-      const value = "; " + document.cookie;
-      const parts = value.split("; " + name + "=");
-      if (parts.length === 2) return parts.pop().split(";").shift();
-    }
-    // Helper: Set cookie
-    function setCookie(name, value, days) {
-      let expires = "";
-      if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        expires = "; expires=" + date.toUTCString();
-      }
-      document.cookie = name + "=" + (value || "") + expires + "; path=/";
-    }
+    <script>
+        const workInkURL = "https://work.ink/jailsploits-key"; // Change this if needed
+        const popupScriptURL = "https://cdn.work.ink/js/redirect.js?id=269"; 
 
-    // URL parameter helper
-    function getUrlParameter(name) {
-      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-      const regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
-      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
+        document.getElementById("getKey").addEventListener("click", function() {
+            // Show Work.ink popup
+            let popupScript = document.createElement("script");
+            popupScript.src = popupScriptURL;
+            popupScript.setAttribute("data-url", "https://work.ink/direct/269");
+            popupScript.setAttribute("data-max", "5");
+            document.body.appendChild(popupScript);
 
-    const adURL = "https://work.ink/jailsploits-key";
-    window.location.href = adURL;
+            // Delay before redirecting to Work.ink
+            setTimeout(() => {
+                window.location.href = workInkURL;
+            }, 3000); // Adjust delay if needed
+        });
 
+        window.onload = function() {
+            // If they return from Work.ink, show another ad before revealing key
+            if (document.referrer.includes("work.ink")) {
+                let popupScript = document.createElement("script");
+                popupScript.src = popupScriptURL;
+                popupScript.setAttribute("data-url", "https://work.ink/direct/269");
+                popupScript.setAttribute("data-max", "5");
+                document.body.appendChild(popupScript);
 
-    // If the cookie is not set and URL does not have from=lootlabs, redirect to LootLabs
-    if (!getCookie("lootlabs_completed") && getUrlParameter("from") !== "lootlabs") {
-      window.location.href = lootlabsURL;
-    } else {
-      // If URL has from=lootlabs, then set the cookie and remove the URL parameter.
-      if (getUrlParameter("from") === "lootlabs") {
-        setCookie("lootlabs_completed", "true", 1); // valid for 1 day (adjust as needed)
-        // Optionally, you can clear the parameter by redirecting without it
-        window.history.replaceState({}, document.title, "/page2.html");
-      }
-      
-      // Display the key (In a real system, you'd request this from your secure backend)
-      // For demonstration, we generate a dummy key
-      const dummyKey = "ABCD-1234-EFGH-5678";
-      const keyBox = document.createElement("div");
-      keyBox.className = "key-box";
-      keyBox.innerText = "Your Key: " + dummyKey;
-      document.getElementById("content").appendChild(keyBox);
-      
-      // Display a countdown for key expiration (for demo, let's assume 3600 seconds)
-      const countdownDiv = document.createElement("div");
-      countdownDiv.className = "countdown";
-      document.getElementById("content").appendChild(countdownDiv);
-      
-      let timeLeft = 3600; // seconds
-      const countdownInterval = setInterval(function() {
-        countdownDiv.innerText = "Key expires in: " + timeLeft + " seconds";
-        timeLeft--;
-        if (timeLeft < 0) {
-          clearInterval(countdownInterval);
-          countdownDiv.innerText = "Key expired.";
-        }
-      }, 1000);
-    }
-  </script>
+                // Delay showing the key
+                setTimeout(() => {
+                    fetch("https://jailsploits.pythonanywhere.com/")  // Replace with your real backend API
+                        .then(response => response.text())
+                        .then(key => {
+                            document.getElementById("keyDisplay").innerText = "Your Key: " + key;
+                            document.getElementById("keyDisplay").style.display = "block";
+                        })
+                        .catch(error => console.error("Error fetching key:", error));
+                }, 5000); // 5-second delay for the ad popup
+            }
+        };
+    </script>
 </body>
 </html>
