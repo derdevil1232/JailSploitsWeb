@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get Your Free Key</title>
+    <title>JailSploits - Get Key</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -14,96 +14,68 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            background: linear-gradient(45deg, #000, #111, #222);
-            background-size: 400% 400%;
-            animation: gradientBG 10s infinite alternate;
+            background-color: #000;
             color: white;
-            text-shadow: 0 0 10px #fff, 0 0 20px #0ff;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 100% 100%; }
-        }
-
-        h1 {
-            font-size: 2.5em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-        }
-
-        .button {
-            background-color: transparent;
-            color: white;
-            font-size: 1.2em;
-            padding: 15px 40px;
-            border: 2px solid #0ff;
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
             cursor: pointer;
-            margin: 10px;
-            text-transform: uppercase;
-            transition: 0.3s;
-            box-shadow: 0 0 10px #0ff;
+            background: #ff00ff;
+            border: none;
+            border-radius: 5px;
+            margin: 20px;
         }
 
-        .button:hover {
-            background: #0ff;
-            color: black;
-            box-shadow: 0 0 20px #0ff;
-        }
-
-        #keyDisplay {
-            font-size: 1.5em;
-            margin-top: 20px;
+        .key-box {
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
             display: none;
-            text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+        }
+
+        .key-box h3 {
+            font-size: 30px;
+        }
+
+        #taskComplete {
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Get Your Free Key</h1>
-    <button class="button" id="getKey">Get Key</button>
-    <p id="keyDisplay"></p>
+    <h1>JailSploits - Get Your Key</h1>
+    <button onclick="window.location.href='https://link-target.net/1295217/jailsploits-24-hour-key'">Complete a Task to Get Your Key</button>
+
+    <div class="key-box" id="keyBox">
+        <h3>Your Key: <span id="key"></span></h3>
+        <p id="taskComplete">Task completed. Please check your key below.</p>
+    </div>
 
     <script>
-        const workInkURL = "https://workink.net/1YUP/jailsploits-key"; // Change this if needed
-        const popupScriptURL = "https://cdn.work.ink/js/redirect.js?id=269"; 
-
-        document.getElementById("getKey").addEventListener("click", function() {
-            // Show Work.ink popup
-            let popupScript = document.createElement("script");
-            popupScript.src = popupScriptURL;
-            popupScript.setAttribute("data-url", "https://work.ink/direct/269");
-            popupScript.setAttribute("data-max", "5");
-            document.body.appendChild(popupScript);
-
-            // Delay before redirecting to Work.ink
-            setTimeout(() => {
-                window.location.href = workInkURL;
-            }, 3000); // Adjust delay if needed
-        });
-
-        window.onload = function() {
-            // If they return from Work.ink, show another ad before revealing key
-            if (document.referrer.includes("work.ink")) {
-                let popupScript = document.createElement("script");
-                popupScript.src = popupScriptURL;
-                popupScript.setAttribute("data-url", "https://work.ink/direct/269");
-                popupScript.setAttribute("data-max", "5");
-                document.body.appendChild(popupScript);
-
-                // Delay showing the key
-                setTimeout(() => {
-                    fetch("https://jailsploits.pythonanywhere.com/")  // Replace with your real backend API
-                        .then(response => response.text())
-                        .then(key => {
-                            document.getElementById("keyDisplay").innerText = "Your Key: " + key;
-                            document.getElementById("keyDisplay").style.display = "block";
-                        })
-                        .catch(error => console.error("Error fetching key:", error));
-                }, 5000); // 5-second delay for the ad popup
+        // Check for the cookie indicating that the user has completed the task
+        const checkForKey = () => {
+            const key = getCookie("key");
+            if (key) {
+                document.getElementById("keyBox").style.display = "block";
+                document.getElementById("key").textContent = key;
+                document.getElementById("taskComplete").textContent = "Task completed. Your key is ready!";
+            } else {
+                alert("You need to complete a task to get the key.");
             }
+        }
+
+        // Function to retrieve a cookie by name
+        const getCookie = (name) => {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
         };
+
+        // Call this function when the page loads to check if the key is in the cookies
+        window.onload = checkForKey;
     </script>
 </body>
 </html>
