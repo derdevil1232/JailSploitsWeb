@@ -1,56 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get Your Key</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-        async function getKey() {
-            const hwid = localStorage.getItem("userHWID") || crypto.randomUUID();
-            localStorage.setItem("userHWID", hwid);
-
-            // Wait for user to complete LootLabs tasks
-            window.open("https://loot-link.com/s?zdRUHO3q", "_blank");
-
-            alert("Complete a task on LootLabs, then click OK to get your key.");
-
-            // Request key from the backend
-            const response = await fetch("https://JailSploits.pythonanywhere.com/generate_key", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ hwid })
-            });
-
-            const data = await response.json();
-
-            if (data.key) {
-                document.getElementById("keyDisplay").innerText = "Your Key: " + data.key;
-            } else {
-                alert("Error: " + data.error);
-            }
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Orbitron', sans-serif;
-            background: black;
-            color: white;
-            text-align: center;
-            padding: 50px;
-        }
-        .button {
-            background: purple;
-            color: white;
-            padding: 15px;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JailSploits - Free Key</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+    }
+    h1 {
+      font-size: 3rem;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+    .container {
+      text-align: center;
+    }
+    .button {
+      background: transparent;
+      border: 2px solid #fff;
+      color: #fff;
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    .button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      transition: all 0.4s ease;
+    }
+    .button:hover::before {
+      left: 0;
+    }
+    .button:hover {
+      box-shadow: 0 0 20px #fff;
+    }
+    .button {
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff;
+    }
+    .key-box {
+      border: 2px solid #fff;
+      padding: 20px;
+      font-size: 1.5rem;
+      margin-top: 20px;
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+    }
+    .countdown {
+      margin-top: 10px;
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+  </style>
 </head>
 <body>
-    <h1>Claim Your JailSploits Key</h1>
-    <button class="button" onclick="getKey()">Get Key</button>
-    <p id="keyDisplay"></p>
+  <div class="container">
+    <h1>Claim Your Free Key</h1>
+    <div id="content">
+      <!-- Content will be loaded dynamically -->
+    </div>
+  </div>
+
+  <script>
+    // Helper: Get cookie by name
+    function getCookie(name) {
+      const value = "; " + document.cookie;
+      const parts = value.split("; " + name + "=");
+      if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+    // Helper: Set cookie
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    // URL parameter helper
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      const regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    const lootlabsURL = "https://loot-link.com/s?zdRUHO3q";
+
+    // If the cookie is not set and URL does not have from=lootlabs, redirect to LootLabs
+    if (!getCookie("lootlabs_completed") && getUrlParameter("from") !== "lootlabs") {
+      window.location.href = lootlabsURL;
+    } else {
+      // If URL has from=lootlabs, then set the cookie and remove the URL parameter.
+      if (getUrlParameter("from") === "lootlabs") {
+        setCookie("lootlabs_completed", "true", 1); // valid for 1 day (adjust as needed)
+        // Optionally, you can clear the parameter by redirecting without it
+        window.history.replaceState({}, document.title, "/page2.html");
+      }
+      
+      // Display the key (In a real system, you'd request this from your secure backend)
+      // For demonstration, we generate a dummy key
+      const dummyKey = "ABCD-1234-EFGH-5678";
+      const keyBox = document.createElement("div");
+      keyBox.className = "key-box";
+      keyBox.innerText = "Your Key: " + dummyKey;
+      document.getElementById("content").appendChild(keyBox);
+      
+      // Display a countdown for key expiration (for demo, let's assume 3600 seconds)
+      const countdownDiv = document.createElement("div");
+      countdownDiv.className = "countdown";
+      document.getElementById("content").appendChild(countdownDiv);
+      
+      let timeLeft = 3600; // seconds
+      const countdownInterval = setInterval(function() {
+        countdownDiv.innerText = "Key expires in: " + timeLeft + " seconds";
+        timeLeft--;
+        if (timeLeft < 0) {
+          clearInterval(countdownInterval);
+          countdownDiv.innerText = "Key expired.";
+        }
+      }, 1000);
+    }
+  </script>
 </body>
 </html>
